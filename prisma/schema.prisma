@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ACCOUNT_TYPE {
+  SAVINGS
+  CURRENT
+  SALARY
+}
+
+enum HOLDER_TYPE {
+  PHYSICAL 
+  JURIDICAL
+}
+
+enum CARD_TYPE {
+  CREDIT 
+  DEBT
+}
+
+model bank_accounts {
+  id                String   @id @default(uuid())
+  identification    String   
+  balance           Float?
+  account_type      ACCOUNT_TYPE?
+  holder_type       HOLDER_TYPE?
+  description       String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model cards {
+    id              String    @id @default(uuid())
+    identification  String
+    balance         Float?
+    limit           Float?
+    due_date        Int
+    card_type       CARD_TYPE
+    bank_account_id String        
+    bank_account    bank_accounts @relation(fields: [bank_account_id], references: [id])
+    created_at      DateTime  @default(now())
+    updated_at      DateTime  @updatedAt
+}
+
+
