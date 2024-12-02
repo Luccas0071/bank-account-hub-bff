@@ -1,34 +1,29 @@
-version: "3.9"
+version: '3.9'
 services:
   app:
     build:
       context: .
       dockerfile: ./Dockerfile
+    container_name: bank-account-hub-bff
     ports:
-      - "3000:3000"
+      - '3000:3000'
+    env_file:
+      - .env
     depends_on:
       - db
-    environment:
-      - NODE_ENV=development
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=acesse
-      - DB_NAME=junta_grana
     volumes:
       - .:/app
-      #- /app/node_modules
     command: npm run start:dev
 
   db:
     image: postgres:15
-    container_name: postgres_db
+    container_name: db-bank-account-hub-bff
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: acesse
-      POSTGRES_DB: junta_grana
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

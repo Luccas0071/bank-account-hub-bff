@@ -5,13 +5,13 @@ FROM node:18
 WORKDIR /app
 
 # Copia os arquivos de dependências para dentro do container
-#COPY package*.json ./
-
-# Copia o restante do código do projeto
-COPY . .
+COPY package*.json ./
 
 # Instala as dependências
 RUN npm install
+
+# Copia o restante do código do projeto
+COPY . .
 
 # Compila o projeto NestJS
 #RUN npm run build
