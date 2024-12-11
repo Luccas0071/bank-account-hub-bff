@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { BankAccountModule } from './BankAccount/bankAccount.module';
+import { BankAccountModule } from '../BankAccount/bankAccount.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CardModule } from '../card/card.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true, // Sincroniza com o Bd. Não deve ser usado em produção
     }),
     BankAccountModule,
+    CardModule,
   ],
   controllers: [],
   providers: [],

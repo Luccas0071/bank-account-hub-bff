@@ -1,15 +1,14 @@
 import {
   Body,
   Controller,
-  // Delete,
-  // Get,
-  // Param,
+  Delete,
+  Get,
+  Param,
   Post,
   // Put,
 } from '@nestjs/common';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { BankAccountService } from './bankAccount.service';
-// import { UpdateBankAccountDto } from './dto/update-bank-account';
 
 @Controller('bankAccount')
 export class BankAccountController {
@@ -17,18 +16,19 @@ export class BankAccountController {
 
   @Post()
   create(@Body() createBankAccountDto: CreateBankAccountDto) {
-    return this.bankAccountService.create(createBankAccountDto);
+    const response = this.bankAccountService.create(createBankAccountDto);
+    return response;
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.bankAccountService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.bankAccountService.findAll();
+  }
 
-  // @Get(':id')
-  // find(@Param('id') id: string) {
-  //   return this.bankAccountService.find(id);
-  // }
+  @Get(':id')
+  find(@Param('id') id: string) {
+    return this.bankAccountService.find(id);
+  }
 
   // @Put(':id')
   // update(
@@ -38,8 +38,8 @@ export class BankAccountController {
   //   return this.bankAccountService.update(id, updateBankAccountDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.bankAccountService.remove(id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.bankAccountService.remove(id);
+  }
 }

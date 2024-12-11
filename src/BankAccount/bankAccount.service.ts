@@ -1,6 +1,6 @@
-import { Inject } from '@nestjs/common';
+import { BadRequestException, Inject } from '@nestjs/common';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
-import { IBankAccountRepository } from './interfaces/bankAccountRepository.interface';
+import { IBankAccountRepository } from './repositories/bankAccount.interface';
 // import { UpdateBankAccountDto } from './dto/update-bank-account';
 
 export class BankAccountService {
@@ -10,28 +10,37 @@ export class BankAccountService {
   ) {}
 
   async create(createBankAccountDto: CreateBankAccountDto) {
-    return this.bankAccountRepository.create(createBankAccountDto);
+    try {
+      this.bankAccountRepository.create(createBankAccountDto);
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException('Erro ao criar conta bancária!');
+    }
+    return {
+      status: 201,
+      message: 'Conta bancária cadastrada com sucesso !',
+    };
   }
 
-  // async findAll() {
-  //   return this.bankAccountRepository.findAll();
-  // }
+  async findAll() {
+    return this.bankAccountRepository.findAll();
+  }
 
-  // async find(id: string) {
-  //   const bankAccount = await this.bankAccountRepository.findById(id);
-  //   if (!bankAccount) {
-  //     throw new Error('Conta bancaria não encontrado!');
-  //   }
-  //   return bankAccount;
-  // }
+  async find(id: string) {
+    const bankAccount = await this.bankAccountRepository.findById(id);
+    if (!bankAccount) {
+      throw new Error('Conta bancaria não encontrado!');
+    }
+    return bankAccount;
+  }
 
   // async update(id: string, updateBankAccountDto: UpdateBankAccountDto) {
   //   await this.find(id);
   //   return this.bankAccountRepository.update(id, updateBankAccountDto);
   // }
 
-  // async remove(id: string) {
-  //   await this.find(id);
-  //   return this.bankAccountRepository.delete(id);
-  // }
+  async remove(id: string) {
+    await this.find(id);
+    return this.bankAccountRepository.delete(id);
+  }
 }

@@ -1,6 +1,8 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { HOLDER_TYPE } from '../enums/holder_type.type';
 import { ACCOUNT_TYPE } from '../enums/account_type.type';
+import { Type } from 'class-transformer';
+import { CreateCardDto } from 'src/card/dto/create-card.dto';
 
 export class CreateBankAccountDto {
   id: string;
@@ -18,6 +20,10 @@ export class CreateBankAccountDto {
   holder_type: HOLDER_TYPE;
 
   description: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => CreateCardDto)
+  cards: CreateCardDto[]; // Array de objetos validados com CreateCardDto
 
   created_at: Date;
 

@@ -2,11 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ACCOUNT_TYPE } from '../enums/account_type.type';
 import { HOLDER_TYPE } from '../enums/holder_type.type';
+import { Card } from 'src/card/entities/card.entity';
 
 @Entity()
 export class BankAccount {
@@ -27,6 +29,9 @@ export class BankAccount {
 
   @Column({ nullable: true })
   description: string;
+
+  @OneToMany(() => Card, (card) => card.bank_account_id, { cascade: true })
+  cards: Card[];
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
